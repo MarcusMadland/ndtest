@@ -1,0 +1,3 @@
+[submodule "mapp"]
+	path = mapp
+	url = https://github.com/MarcusMadland/mapp.git
