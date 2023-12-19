@@ -37,10 +37,8 @@ set(COPYRIGHT "Copyright (c) 2023 Marcus Madland. All rights reserved.")
 set(IDENTIFIER "com.marcusmadland.assetmanager")
 
 # Sources
-file(GLOB_RECURSE SOURCE_FILES RELATIVE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+set(SOURCE_FILES 
+    main.cpp
 )
 
 # Dependencies ================================================
