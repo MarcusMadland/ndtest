@@ -5,10 +5,10 @@
 
 #include <stdio.h>
 
-#include <mapp/commandline.h>
-#include <mapp/file.h>
+#include <base/commandline.h>
+#include <base/file.h>
 
-static bx::ErrorAssert s_errAssert;
+static base::ErrorAssert s_errAssert;
 
 struct PakHeader 
 {													   
@@ -80,7 +80,7 @@ struct PakLoginTableEntry
 
 int main(int _argc, const char* const* _argv)
 {
-	bx::CommandLine cmdLine(_argc, (const char**)_argv);
+	base::CommandLine cmdLine(_argc, (const char**)_argv);
 
 	// Manage input
 	const char* input = cmdLine.findOption("-i");
@@ -88,23 +88,23 @@ int main(int _argc, const char* const* _argv)
 	{
 		input = "C:/Users/marcu/Dev/uncharted-extracted/Uncharted4_data/build/pc/uncharted4/pak54/anim-player-movement-relaxed-level.pak";
 	}
-	bx::printf("Reading file at path: %s\n", input);
+	base::printf("Reading file at path: %s\n", input);
 
 	// Open file
-	bx::FileReader reader;
-	if (bx::open(&reader, input, s_errAssert))
+	base::FileReader reader;
+	if (base::open(&reader, input, s_errAssert))
 	{
 		// Read header
 		PakHeader header;
-		bx::read(&reader, &header.m_magic, sizeof(header.m_magic), s_errAssert);
+		base::read(&reader, &header.m_magic, sizeof(header.m_magic), s_errAssert);
 		if (header.m_magic == 0xA79 || header.m_magic == 0x10A79) // Normal pak or -dict.pak
 		{
-			bx::seek(&reader, 0, bx::Whence::Begin);
-			bx::read(&reader, &header, sizeof(header), s_errAssert);
+			base::seek(&reader, 0, base::Whence::Begin);
+			base::read(&reader, &header, sizeof(header), s_errAssert);
 		}
 		else
 		{
-			bx::printf("File [%s] is an older version, found 0x%08x instead of %s!\n", input, header.m_magic, "0xA79 / 0x10A79");
+			base::printf("File [%s] is an older version, found 0x%08x instead of %s!\n", input, header.m_magic, "0xA79 / 0x10A79");
 			return 0;
 		}
 
@@ -112,20 +112,20 @@ int main(int _argc, const char* const* _argv)
 		for (U32 i = 0; i < header.m_pageCt; i++)
 		{
 			ResPage page;
-			bx::read(&reader, &page, sizeof(page), s_errAssert);
+			base::read(&reader, &page, sizeof(page), s_errAssert);
 
 			// Read entries
 			for (U32 i = 0; i < page.m_numPageHeaderEntries; i++)
 			{
 				ResPageEntry entry;
-				bx::read(&reader, &entry, sizeof(entry), s_errAssert);
+				base::read(&reader, &entry, sizeof(entry), s_errAssert);
 			}
 		}
 		
 		
 		// Close file
-		bx::close(&reader);
+		base::close(&reader);
 	}
 
-	while (getchar() != '\n') {} return bx::kExitSuccess;
+	while (getchar() != '\n') {} return base::kExitSuccess;
 }

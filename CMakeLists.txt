@@ -42,7 +42,7 @@ set(SOURCE_FILES
 )
 
 # Dependencies ================================================
-add_subdirectory(mapp/ ${CMAKE_BINARY_DIR}/mapp) # mapp
+add_subdirectory(base/ ${CMAKE_BINARY_DIR}/base) # base
 # =============================================================
 
 # Add executable
@@ -54,10 +54,10 @@ add_executable(
 # Link to engine
 target_link_libraries(
     ${PROJECT_NAME}
-    mapp
+    base
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/mapp/include/)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/base/include/)
 
 # Change output dir to bin
 set_target_properties(${PROJECT_NAME} PROPERTIES
